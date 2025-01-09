@@ -1,20 +1,16 @@
 <div class="card card-grid h-full min-w-full">
     <div class="card-header">
         <h3 class="card-title">
-            {% if booksRead == booksInProgress %}
-                Mes lectures en cours
-            {% else %}
-                Mes lectures terminées
-            {% endif %}
+            Mes lectures en cours
         </h3>
         <div class="input input-sm max-w-48">
             <i class="ki-filled ki-magnifier">
             </i>
-            <input data-datatable-search="#read-books-table" placeholder="Rechercher" type="text"/>
+            <input data-datatable-search="#in-progress-books-table" placeholder="Rechercher" type="text"/>
         </div>
     </div>
     <div class="card-body">
-        <div id="read-books-table" data-datatable="true" data-datatable-page-size="5">
+        <div id="in-progress-books-table" data-datatable="true" data-datatable-page-size="5">
             <div class="scrollable-x-auto">
                 <table class="table table-border" data-datatable-table="true">
                     <thead>
@@ -40,14 +36,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for bookRead in booksRead %}
+                    {% for bookRead in booksInProgress %}
                         {% set book = bookRead.book %}
                         <tr data-book-read-id="{{ bookRead.id }}" class="cursor-pointer hover:bg-gray-100" onclick="editBookRead({{ bookRead.id }})">
                             <td>
                                 <div class="flex flex-col gap-2">
-                                    <span class="leading-none font-medium text-sm text-gray-900">
+                                    <a class="leading-none font-medium text-sm text-gray-900 hover:text-primary"
+                                       href="#">
                                         {{ book.name }}
-                                    </span>
+                                    </a>
                                     <span class="text-2sm text-gray-700 font-normal leading-3">
                                         {{ bookRead.description }}
                                     </span>
@@ -72,13 +69,7 @@
                             <td colspan="3" class="text-center py-8">
                                 <div class="flex flex-col items-center gap-2">
                                     <i class="ki-solid ki-book text-4xl text-gray-400"></i>
-                                    <p class="text-gray-600">
-                                        {% if booksRead == booksInProgress %}
-                                            Aucune lecture en cours pour le moment
-                                        {% else %}
-                                            Aucune lecture terminée pour le moment
-                                        {% endif %}
-                                    </p>
+                                    <p class="text-gray-600">Aucune lecture en cours pour le moment</p>
                                 </div>
                             </td>
                         </tr>

@@ -16,20 +16,47 @@ class BookReadRepository extends ServiceEntityRepository
         parent::__construct($registry, BookRead::class);
     }
 
-    /**
-     * Method to find all ReadBook entities by user_id
-     * @param int $userId
-     * @param bool $readState
-     * @return array
-     */
-    public function findByUserId(int $userId, bool $readState): array
+    public function findByUserId(int $userId, bool $onlyFinished = true): array
     {
-        return $this->createQueryBuilder('r')
-            ->where('r.user_id = :userId')
-            ->andWhere('r.is_read = :isRead')
+        $qb = $this->createQueryBuilder('br')
+            ->join('br.book', 'b')
+            ->addSelect('b')
+            ->where('br.user_id = :userId')
+            ->setParameter('userId', $userId);
+
+        if ($onlyFinished) {
+            $qb->andWhere('br.is_read = true');
+        }
+
+        return $qb->orderBy('br.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findFinishedByUserId(int $userId): array
+    {
+        return $this->createQueryBuilder('br')
+            ->join('br.book', 'b')
+            ->addSelect('b')
+            ->where('br.user_id = :userId')
+            ->andWhere('br.is_read = :isRead')
             ->setParameter('userId', $userId)
-            ->setParameter('isRead', $readState)
-            ->orderBy('r.created_at', 'DESC')
+            ->setParameter('isRead', true)
+            ->orderBy('br.created_at', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findInProgressByUserId(int $userId): array
+    {
+        return $this->createQueryBuilder('br')
+            ->join('br.book', 'b')
+            ->addSelect('b')
+            ->where('br.user_id = :userId')
+            ->andWhere('br.is_read = :isRead')
+            ->setParameter('userId', $userId)
+            ->setParameter('isRead', false)
+            ->orderBy('br.created_at', 'DESC')
             ->getQuery()
             ->getResult();
     }

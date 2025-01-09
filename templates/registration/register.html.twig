@@ -1,0 +1,79 @@
+{% extends 'auth.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="flex items-center justify-center grow bg-center bg-no-repeat page-bg">
+        <div class="card max-w-[370px] w-full">
+            {{ form_start(registrationForm, {'attr': {'class': 'card-body flex flex-col gap-5 p-10'}}) }}
+                <div class="text-center mb-2.5">
+                    <h3 class="text-lg font-medium text-gray-900 leading-none mb-2.5">
+                        Inscription
+                    </h3>
+                    <div class="flex items-center justify-center">
+                        <span class="text-2sm text-gray-700 me-1.5">
+                        Vous avez déjà un compte ?
+                        </span>
+                        <a class="text-2sm link" href="{{ path('auth.login') }}">
+                            Me connecter
+                        </a>
+                    </div>
+                </div>
+
+                {% if form_errors(registrationForm) %}
+                    <div class="alert alert-danger">
+                        {{ form_errors(registrationForm) }}
+                    </div>
+                {% endif %}
+
+                <div class="flex flex-col gap-1">
+                    {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'form-label text-gray-900'}}) }}
+                    {{ form_widget(registrationForm.email, {'attr': {'class': 'input', 'placeholder': 'Adresse email'}}) }}
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    {{ form_label(registrationForm.plainPassword.first, 'Mot de passe', {'label_attr': {'class': 'form-label font-normal text-gray-900'}}) }}
+                    <div class="input" data-toggle-password="true">
+                        {{ form_widget(registrationForm.plainPassword.first, {
+                            'attr': {
+                                'class': '',
+                                'placeholder': 'Mot de passe'
+                            }
+                        }) }}
+                        <button class="btn btn-icon" data-toggle-password-trigger="true" type="button">
+                            <i class="ki-filled ki-eye text-gray-500 toggle-password-active:hidden"></i>
+                            <i class="ki-filled ki-eye-slash text-gray-500 hidden toggle-password-active:block"></i>
+                        </button>
+                    </div>
+                    {{ form_errors(registrationForm.plainPassword.first) }}
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    {{ form_label(registrationForm.plainPassword.second, 'Confirmer le mot de passe', {'label_attr': {'class': 'form-label font-normal text-gray-900'}}) }}
+                    <div class="input" data-toggle-password="true">
+                        {{ form_widget(registrationForm.plainPassword.second, {
+                            'attr': {
+                                'class': '',
+                                'placeholder': 'Confirmez le mot de passe'
+                            }
+                        }) }}
+                        <button class="btn btn-icon" data-toggle-password-trigger="true" type="button">
+                            <i class="ki-filled ki-eye text-gray-500 toggle-password-active:hidden"></i>
+                            <i class="ki-filled ki-eye-slash text-gray-500 hidden toggle-password-active:block"></i>
+                        </button>
+                    </div>
+                    {{ form_errors(registrationForm.plainPassword.second) }}
+                </div>
+
+                <div class="checkbox-group">
+                    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'checkbox checkbox-sm'}}) }}
+                    {{ form_label(registrationForm.agreeTerms, "J'accepte les conditions d'utilisation", {'label_attr': {'class': 'checkbox-label'}}) }}
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
+
+                <button type="submit" class="btn btn-primary flex justify-center grow">Inscription</button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}

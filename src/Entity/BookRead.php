@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\BookReadRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Book;
 
 #[ORM\Entity(repositoryClass: BookReadRepository::class)]
 class BookRead
@@ -17,8 +18,9 @@ class BookRead
     #[ORM\Column]
     private ?int $user_id = null;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $book_id = null;
+    #[ORM\ManyToOne(targetEntity: Book::class)]
+    #[ORM\JoinColumn(name: 'book_id', referencedColumnName: 'id', nullable: false)]
+    private ?Book $book = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
     private ?string $rating = null;
@@ -27,7 +29,7 @@ class BookRead
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?bool $is_read = null;
+    private bool $is_read = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cover = null;
@@ -55,14 +57,14 @@ class BookRead
         return $this;
     }
 
-    public function getBookId(): ?string
+    public function getBook(): ?Book
     {
-        return $this->book_id;
+        return $this->book;
     }
 
-    public function setBookId(string $book_id): static
+    public function setBook(?Book $book): static
     {
-        $this->book_id = $book_id;
+        $this->book = $book;
 
         return $this;
     }
@@ -96,7 +98,7 @@ class BookRead
         return $this->is_read;
     }
 
-    public function setRead(bool $is_read): static
+    public function setIsRead(bool $is_read): static
     {
         $this->is_read = $is_read;
 
@@ -108,7 +110,7 @@ class BookRead
         return $this->cover;
     }
 
-    public function setCover(string $cover): static
+    public function setCover(?string $cover): static
     {
         $this->cover = $cover;
 

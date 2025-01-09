@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="214px" height="140px" viewBox="0 0 214 140" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Books" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(0, 0)">
+            <path d="M30,0 L184,0 C200.568542,-3.24649801e-15 214,13.4314575 214,30 L214,110 C214,126.568542 200.568542,140 184,140 L30,140 C13.4314575,140 2.02906125e-15,126.568542 0,110 L0,30 C-2.02906125e-15,13.4314575 13.4314575,3.24649801e-15 30,0 Z" fill="#50CD89"></path>
+            <rect fill="#FFFFFF" opacity="0.3" x="40" y="30" width="134" height="80" rx="6"></rect>
+            <rect fill="#FFFFFF" x="40" y="50" width="134" height="80" rx="6"></rect>
+            <rect fill="#FFFFFF" opacity="0.3" x="40" y="70" width="134" height="80" rx="6"></rect>
+            <rect fill="#FFFFFF" x="40" y="90" width="134" height="80" rx="6"></rect>
+        </g>
+    </g>
+</svg>

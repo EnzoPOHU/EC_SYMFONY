@@ -20,9 +20,25 @@
                         </a>
                     </div>
                 </div>
+
+                {% if error %}
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="ki-solid ki-cross-circle text-red-500 text-xl"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-red-700">
+                                    Identifiants invalides. Veuillez vérifier votre email et mot de passe.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
                 <div class="flex flex-col gap-1">
                     <label for="email" class="form-label font-normal text-gray-900">Email</label>
-                    <input id="email" type="text" name="_username" class="input" placeholder="Adresse email" />
+                    <input id="email" type="text" name="_username" class="input" placeholder="Adresse email" value="{{ last_username }}" />
                 </div>
                 <div class="flex flex-col gap-1">
                     <div class="flex items-center justify-between gap-1">
