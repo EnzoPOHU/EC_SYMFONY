@@ -10,11 +10,11 @@
         <div class="input input-sm max-w-48">
             <i class="ki-filled ki-magnifier">
             </i>
-            <input data-datatable-search="#read-books-table" placeholder="Rechercher" type="text"/>
+            <input data-datatable-search="{{ booksRead == booksInProgress ? '#in-progress-books-table' : '#read-books-table' }}" placeholder="Rechercher" type="text"/>
         </div>
     </div>
     <div class="card-body">
-        <div id="read-books-table" data-datatable="true" data-datatable-page-size="5">
+        <div id="{{ booksRead == booksInProgress ? 'in-progress-books-table' : 'read-books-table' }}" data-datatable="true" data-datatable-page-size="5">
             <div class="scrollable-x-auto">
                 <table class="table table-border" data-datatable-table="true">
                     <thead>
