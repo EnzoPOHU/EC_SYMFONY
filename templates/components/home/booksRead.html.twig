@@ -45,15 +45,17 @@
                         <tr data-book-read-id="{{ bookRead.id }}" class="cursor-pointer hover:bg-gray-100" onclick="editBookRead({{ bookRead.id }})">
                             <td>
                                 <div class="flex flex-col gap-2">
-                                    <span class="leading-none font-medium text-sm text-gray-900">
+                                    <a href="#" class="leading-none font-medium text-sm text-gray-900 hover:text-primary book-name-link" 
+                                       data-book-id="{{ bookRead.book.id }}"
+                                       data-book-read-id="{{ bookRead.id }}">
                                         {{ book.name }}
-                                    </span>
+                                    </a>
                                     <span class="text-2sm text-gray-700 font-normal leading-3">
                                         {{ bookRead.description }}
                                     </span>
                                 </div>
                             </td>
-                            <td>{{ book.categoryId }}</td>
+                            <td>{{ book.category.name }}</td>
                             <td>
                                 <div class="rating">
                                     {% set rating = bookRead.rating|default(0) %}

@@ -15,12 +15,28 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Email;
 
+/**
+ * Formulaire d'inscription pour les nouveaux utilisateurs
+ * 
+ * Ce formulaire gère la création de nouveaux comptes utilisateurs 
+ * avec des champs de validation personnalisés.
+ */
 class RegistrationFormType extends AbstractType
 {
+    /**
+     * Construit le formulaire d'inscription
+     * 
+     * Configure les différents champs et leurs contraintes de validation
+     * 
+     * @param FormBuilderInterface $builder Constructeur de formulaire
+     * @param array $options Options supplémentaires pour le formulaire
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // Champ email
             ->add('email', EmailType::class, [
+                'label' => 'Adresse email',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez entrer une adresse email',
@@ -30,6 +46,8 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            
+            // Champ mot de passe
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les mots de passe doivent correspondre.',
@@ -54,18 +72,26 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            
+            // Case à cocher pour les conditions d'utilisation
             ->add('agreeTerms', CheckboxType::class, [
+                'label' => 'J\'accepte les conditions d\'utilisation',
                 'mapped' => false,
-                'required' => true,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'Vous devez accepter les conditions d\'utilisation.',
+                        'message' => 'Vous devez accepter nos conditions d\'utilisation',
                     ]),
                 ],
-            ])
-        ;
+            ]);
     }
 
+    /**
+     * Configure les options par défaut du formulaire
+     * 
+     * Associe le formulaire à l'entité User
+     * 
+     * @param OptionsResolver $resolver Résolveur d'options
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
