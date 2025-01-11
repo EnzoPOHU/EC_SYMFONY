@@ -15,6 +15,11 @@
                 <i class="ki-filled ki-magnifier !text-base">
                 </i>
             </button>
+            {% if app.user %}
+            <a href="{{ path('auth.logout') }}" class="btn btn-icon btn-icon-lg size-8 rounded-md hover:bg-gray-200 dropdown-open:bg-gray-200 hover:text-primary text-gray-600" title="Déconnexion">
+                <i class="ki-filled ki-exit-right !text-base"></i>
+            </a>
+            {% endif %}
         </div>
     </div>
     <!-- End of Container -->

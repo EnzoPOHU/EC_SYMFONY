@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class LoginController extends AbstractController
+class SecurityController extends AbstractController
 {
     #[Route('/login', name: 'auth.login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
@@ -23,8 +25,8 @@ class LoginController extends AbstractController
     }
 
     #[Route('/logout', name: 'auth.logout')]
-    public function logout(): void
+    public function logout(): Response
     {
-        // This method can be empty - it will be intercepted by the logout key on your firewall
+        return new RedirectResponse($this->generateUrl('auth.login'));
     }
 }
