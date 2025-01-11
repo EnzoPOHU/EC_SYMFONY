@@ -1,16 +1,20 @@
 <div class="card card-grid h-full min-w-full">
     <div class="card-header">
         <h3 class="card-title">
-            Mes lectures terminées
+            {% if booksRead == booksInProgress %}
+                Mes lectures en cours
+            {% else %}
+                Mes lectures terminées
+            {% endif %}
         </h3>
         <div class="input input-sm max-w-48">
             <i class="ki-filled ki-magnifier">
             </i>
-            <input data-datatable-search="#read-books-table" placeholder="Rechercher" type="text"/>
+            <input data-datatable-search="{{ booksRead == booksInProgress ? '#in-progress-books-table' : '#read-books-table' }}" placeholder="Rechercher" type="text"/>
         </div>
     </div>
     <div class="card-body">
-        <div id="read-books-table" data-datatable="true" data-datatable-page-size="5">
+        <div id="{{ booksRead == booksInProgress ? 'in-progress-books-table' : 'read-books-table' }}" data-datatable="true" data-datatable-page-size="5">
             <div class="scrollable-x-auto">
                 <table class="table table-border" data-datatable-table="true">
                     <thead>
@@ -36,44 +40,51 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <div class="flex flex-col gap-2">
-                                <a class="leading-none font-medium text-sm text-gray-900 hover:text-primary"
-                                   href="#">
-                                    Le Moine qui vendit sa Ferrari
-                                </a>
-                                <span class="text-2sm text-gray-700 font-normal leading-3">
-                                    Un conte sur la quête du bonheur et du succès intérieur.
-                                </span>
-                            </div>
-                        </td>
-                        <td>Spiritualité</td>
-                        <td>
-                            <div class="rating">
-                                <div class="rating-label checked">
-                                    <i class="rating-on ki-solid ki-star text-base leading-none"></i>
-                                    <i class="rating-off ki-outline ki-star text-base leading-none"></i>
+                    {% for bookRead in booksRead %}
+                        {% set book = bookRead.book %}
+                        <tr data-book-read-id="{{ bookRead.id }}" class="cursor-pointer hover:bg-gray-100" onclick="editBookRead({{ bookRead.id }})">
+                            <td>
+                                <div class="flex flex-col gap-2">
+                                    <a href="#" class="leading-none font-medium text-sm text-gray-900 hover:text-primary book-name-link" 
+                                       data-book-id="{{ bookRead.book.id }}"
+                                       data-book-read-id="{{ bookRead.id }}">
+                                        {{ book.name }}
+                                    </a>
+                                    <span class="text-2sm text-gray-700 font-normal leading-3">
+                                        {{ bookRead.description }}
+                                    </span>
                                 </div>
-                                <div class="rating-label checked">
-                                    <i class="rating-on ki-solid ki-star text-base leading-none"></i>
-                                    <i class="rating-off ki-outline ki-star text-base leading-none"></i>
+                            </td>
+                            <td>{{ book.category.name }}</td>
+                            <td>
+                                <div class="rating">
+                                    {% set rating = bookRead.rating|default(0) %}
+                                    {% for i in 1..5 %}
+                                        {% set isHalf = (rating - i + 1) > 0 and (rating - i + 1) < 1 %}
+                                        <div class="rating-label {{ (i <= rating) ? 'checked' : '' }} {{ isHalf ? 'half-checked' : '' }}">
+                                            <i class="rating-on ki-solid ki-star text-base leading-none"></i>
+                                            <i class="rating-off ki-outline ki-star text-base leading-none"></i>
+                                        </div>
+                                    {% endfor %}
                                 </div>
-                                <div class="rating-label checked">
-                                    <i class="rating-on ki-solid ki-star text-base leading-none"></i>
-                                    <i class="rating-off ki-outline ki-star text-base leading-none"></i>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center py-8">
+                                <div class="flex flex-col items-center gap-2">
+                                    <i class="ki-solid ki-book text-4xl text-gray-400"></i>
+                                    <p class="text-gray-600">
+                                        {% if booksRead == booksInProgress %}
+                                            Aucune lecture en cours pour le moment
+                                        {% else %}
+                                            Aucune lecture terminée pour le moment
+                                        {% endif %}
+                                    </p>
                                 </div>
-                                <div class="rating-label checked">
-                                    <i class="rating-on ki-solid ki-star text-base leading-none"></i>
-                                    <i class="rating-off ki-outline ki-star text-base leading-none"></i>
-                                </div>
-                                <div class="rating-label checked">
-                                    <i class="rating-on ki-solid ki-star text-base leading-none"></i>
-                                    <i class="rating-off ki-outline ki-star text-base leading-none"></i>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>

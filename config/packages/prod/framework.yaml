@@ -1,0 +1,5 @@
+framework:
+    error_handler:
+        log: true
+    php_errors:
+        log: true

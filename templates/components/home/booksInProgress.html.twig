@@ -1,0 +1,97 @@
+<div class="card card-grid h-full min-w-full">
+    <div class="card-header">
+        <h3 class="card-title">
+            Mes lectures en cours
+        </h3>
+        <div class="input input-sm max-w-48">
+            <i class="ki-filled ki-magnifier">
+            </i>
+            <input data-datatable-search="#in-progress-books-table" placeholder="Rechercher" type="text"/>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id="in-progress-books-table" data-datatable="true" data-datatable-page-size="5">
+            <div class="scrollable-x-auto">
+                <table class="table table-border" data-datatable-table="true">
+                    <thead>
+                    <tr>
+                        <th class="min-w-[280px]">
+                            <span class="sort asc">
+                                <span class="sort-label">Livre</span>
+                                <span class="sort-icon"></span>
+                            </span>
+                        </th>
+                        <th class="min-w-[135px]">
+                            <span class="sort asc">
+                                <span class="sort-label">Catégorie</span>
+                                <span class="sort-icon"></span>
+                            </span>
+                        </th>
+                        <th class="min-w-[135px]">
+                            <span class="sort asc">
+                                <span class="sort-label">Note</span>
+                                <span class="sort-icon"></span>
+                            </span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for bookRead in booksInProgress %}
+                        {% set book = bookRead.book %}
+                        <tr data-book-read-id="{{ bookRead.id }}" class="cursor-pointer hover:bg-gray-100" onclick="editBookRead({{ bookRead.id }})">
+                            <td>
+                                <div class="flex flex-col gap-2">
+                                    <a href="#" class="leading-none font-medium text-sm text-gray-900 hover:text-primary book-name-link" 
+                                       data-book-id="{{ bookRead.book.id }}"
+                                       data-book-read-id="{{ bookRead.id }}">
+                                        {{ book.name }}
+                                    </a>
+                                    <span class="text-2sm text-gray-700 font-normal leading-3">
+                                        {{ bookRead.description }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td>{{ book.categoryId }}</td>
+                            <td>
+                                <div class="rating">
+                                    {% set rating = bookRead.rating|default(0) %}
+                                    {% for i in 1..5 %}
+                                        {% set isHalf = (rating - i + 1) > 0 and (rating - i + 1) < 1 %}
+                                        <div class="rating-label {{ (i <= rating) ? 'checked' : '' }} {{ isHalf ? 'half-checked' : '' }}">
+                                            <i class="rating-on ki-solid ki-star text-base leading-none"></i>
+                                            <i class="rating-off ki-outline ki-star text-base leading-none"></i>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center py-8">
+                                <div class="flex flex-col items-center gap-2">
+                                    <i class="ki-solid ki-book text-4xl text-gray-400"></i>
+                                    <p class="text-gray-600">Aucune lecture en cours pour le moment</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer justify-center md:justify-between flex-col md:flex-row gap-5 text-gray-600 text-2sm font-medium">
+                <div class="flex items-center gap-2 order-2 md:order-1">
+                    Show
+                    <select class="select select-sm w-16"
+                            data-datatable-size="true" name="perpage">
+                    </select>
+                    per page
+                </div>
+                <div class="flex items-center gap-4 order-1 md:order-2">
+                    <span data-datatable-info="true"></span>
+                    <div class="pagination" data-datatable-pagination="true">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
